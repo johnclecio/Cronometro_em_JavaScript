@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronometro - JavaScript</title>
+<style>
+body{
+    background: linear-gradient(to right bottom, rgb(25, 6, 230), rgb(230, 7, 7), rgb(0, 0, 0));   
+}
+.time {
+    margin-top: 0px;    
+}
+.container{
+    text-align: center;
+    
+}
+.borda {
+    border: solid black 4px;
+    margin-left: 100px;
+    margin-right: 800px;
+    margin-top: 0px;
+    margin-bottom: 88px;
+    background: gold;
+}
+button {
+    background: #069;
+    color: white;
+    font-size: 32px;
+    padding: 8px 20px;
+    cursor: pointer;
+    border: 0;
+}
+</style>
+</head>
+<body>
+
+       
+    <fieldset class="borda">
+            <audio  id="sound"src="alarm.mp3.mp3" style="display: none;"></audio>
+            <div  class="container">
+                <h2>Minutos:</h2>
+                <select id="minutos" name="minutos" ></select>    
+                
+                <h2>Segundos:</h2>
+                <select id="segundos" name="segundos"></select>
+                 <br/>
+                 <br/>
+                <button id="comecar">Começar!</button>
+
+                <div id="display">
+                    <h3></h3>
+                </div>
+            </div>
+            <div class="time">
+                <iframe width="475" height="250" src="https://relogioonline.com.br/embed/cronometro/#theme=1" frameborder="0" allowfullscreen></iframe>
+             </div>
+   </fieldset>
+
+                   
+            <script>
+                var display = document.getElementById('display');
+                var minutos = document.getElementById('minutos');
+                var segundos = document.getElementById('segundos');
+                var comecar = document.getElementById('comecar');
+
+
+                var cronometroSeg;
+                var minutoAtual;
+                var segundoAtual;
+                var interval;
+
+                for(var i = 0; i <= 60; i++){
+                    minutos.innerHTML+='<option value="'+i+'">'+i+'</option>';
+                }
+                for(var i = 1; i <= 60; i++){
+                    segundos.innerHTML+='<option value="'+i+'">'+i+'</option>';
+                }
+                comecar.addEventListener('click', function(){
+                    minutoAtual = minutos.value;
+                    segundoAtual = segundos.value;
+
+                    display.childNodes[1].innerHTML = minutoAtual + ":"+segundoAtual;
+
+                    interval = setInterval(function(){
+
+                        segundoAtual--;
+                        if(segundoAtual <=0){
+                            if(minutoAtual > 0){
+                                minutoAtual--;
+                                segundoAtual = 59;
+                            }else{
+                                alert('Acabou')
+                                document.getElementById("sound").play();
+                                clearInterval(interval);
+                            }
+                        }
+                        display.childNodes[1].innerHTML = minutoAtual + ":"+segundoAtual;
+                    },1000);
+                })
+
+
+            </script>
+</body>
+</html>
